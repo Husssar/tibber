@@ -16,7 +16,6 @@ def insert_data(value):
         cnx = pymysql.connect(user=USER, password=PASSWORD, host=HOST, database=DATABASE)
         cnx.autocommit = True
         for r in value:
-
             qry = (f"INSERT IGNORE INTO grid_cost (when_price, price, tax, totalprice) "
                    f"VALUES (\"{r['startsAt']}\", {r['energy']}, {r['tax']}, {r['total']})")
             print(qry)
@@ -50,11 +49,8 @@ def get_data(when):
                  '}'
             '}',
     }
-    response = requests.post('https://api.tibber.com/v1-beta/gql', headers=headers, json=json_data)
-
-    #print(response.json())
+    response = requests.post(URL, headers=headers, json=json_data)
     data = response.json()
-   # print(data)
     price = data['data']['viewer']['homes'][0]['currentSubscription']['priceInfo'][when]
     return price
 
